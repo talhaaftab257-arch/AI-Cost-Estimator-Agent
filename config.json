@@ -1,0 +1,44 @@
+{
+  "carcassMaterials": {
+    "Standard Melamine (White)": 25,
+    "HMR Melamine (High Moisture Resistant)": 35,
+    "Black Melamine": 40,
+    "Birch Plywood": 55
+  },
+  "doorFinishes": {
+    "Matt Melamine": 45,
+    "Textured Melamine": 55,
+    "Thermolaminated (Vinyl Wrap)": 85,
+    "Satin Polyurethane (Painted MDF)": 140,
+    "Gloss Polyurethane (Painted MDF)": 160,
+    "Natural Timber Veneer": 190
+  },
+  "benchtopMaterials": {
+    "None": 0,
+    "Laminate (Standard)": 120,
+    "Acrylic Solid Surface": 450,
+    "Standard Quartz (20mm Stone)": 650,
+    "Premium Quartz (40mm Stone)": 950,
+    "Natural Marble/Granite": 1400
+  },
+  "hardware": {
+    "Standard Hinge": 8,
+    "Soft-Close Hinge": 15,
+    "Standard Drawer Runner (pair)": 25,
+    "Soft-Close Drawer Runner (pair)": 50,
+    "Push-to-Open Runner (pair)": 60,
+    "Standard Handle": 7,
+    "Designer Handle": 18,
+    "Integrated Gola Profile (per m)": 35
+  },
+  "labor": {
+    "hourlyRate": 75,
+    "installRate": 85
+  },
+  "margins": {
+    "overhead": 15,
+    "profit": 20,
+    "wastage": 15,
+    "tax": 10
+  }
+}
