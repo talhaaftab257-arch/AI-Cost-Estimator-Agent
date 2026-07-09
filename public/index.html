@@ -1,95 +1,64 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AeroCraft 3D: Intelligent Joinery & Cabinetry Estimation Suite</title>
-  <!-- Google Fonts: Outfit & Inter -->
+  <title>AeroCraft 3D: Intelligent Joinery &amp; Cabinetry Estimation Suite</title>
+  <meta name="description" content="AI-powered joinery and cabinetry cost estimation with 3D visualizer, PDF extraction, and professional proposal generation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="styles.css">
-  <!-- Lucide Icons (CDN) -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="light-theme">
-  
-  <!-- Global App Wrapper -->
   <div class="app-container">
-    
-    <!-- Header -->
     <header class="app-header">
       <div class="logo-area">
-        <div class="logo-icon">
-          <i data-lucide="layers-3"></i>
-        </div>
+        <div class="logo-icon"><i data-lucide="layers-3"></i></div>
         <div class="logo-text">
           <h1>AeroCraft 3D</h1>
           <span>Intelligent Joinery Estimation Suite</span>
         </div>
       </div>
-      
       <div class="header-controls">
         <div id="status-badge" class="status-badge simulation">
           <span class="pulse-dot"></span>
           <span id="status-text">Simulation Mode</span>
         </div>
-        
+        <div class="header-project-btns">
+          <button id="save-project-btn" class="btn btn-secondary btn-xs" title="Save project to browser"><i data-lucide="save"></i> Save</button>
+          <button id="download-json-btn" class="btn btn-secondary btn-xs" title="Download project as JSON"><i data-lucide="download"></i> Export</button>
+          <label for="import-json-input" class="btn btn-secondary btn-xs" title="Import project from JSON" style="cursor:pointer;"><i data-lucide="upload"></i> Import</label>
+          <input type="file" id="import-json-input" accept=".json" style="display:none;">
+        </div>
         <button id="theme-toggle" class="icon-btn" title="Toggle Light/Dark Theme">
           <i data-lucide="sun" class="sun-icon"></i>
           <i data-lucide="moon" class="moon-icon"></i>
         </button>
       </div>
     </header>
-
-    <!-- Main Navigation Tabs -->
     <nav class="app-tabs">
-      <button class="tab-btn active" data-tab="editor">
-        <i data-lucide="layout-grid"></i> AeroCraft Quote Dashboard
-      </button>
-      <button class="tab-btn" data-tab="config">
-        <i data-lucide="sliders"></i> Material Pricing Defaults
-      </button>
-      <button class="tab-btn" data-tab="api-settings">
-        <i data-lucide="key-round"></i> Gemini AI Configuration
-      </button>
+      <button class="tab-btn active" data-tab="editor"><i data-lucide="layout-grid"></i> AeroCraft Quote Dashboard</button>
+      <button class="tab-btn" data-tab="config"><i data-lucide="sliders"></i> Material Pricing Defaults</button>
+      <button class="tab-btn" data-tab="api-settings"><i data-lucide="key-round"></i> Gemini AI Configuration</button>
     </nav>
-
-    <!-- Main Content Container -->
     <main class="app-content">
-
-      <!-- ================= TAB: EDITOR ================= -->
       <section id="tab-editor" class="tab-pane active">
-        
-        <!-- Upload & Summary Section -->
         <div class="top-dashboard-grid">
-          
-          <!-- PDF Upload Card -->
           <div class="ui-card glass-panel upload-card">
-            <div class="card-header">
-              <i data-lucide="file-text"></i>
-              <h2>Extract Joinery Schedule</h2>
-            </div>
-            
+            <div class="card-header"><i data-lucide="file-text"></i><h2>Extract Joinery Schedule</h2></div>
             <div id="drop-zone" class="drop-zone">
               <i data-lucide="upload-cloud" class="upload-icon"></i>
-              <p class="primary-text">Drag & drop your cabinetry spec PDF here</p>
+              <p class="primary-text">Drag &amp; drop your cabinetry spec PDF here</p>
               <p class="secondary-text">or click to browse files</p>
               <input type="file" id="pdf-input" accept=".pdf" style="display: none;">
             </div>
-
             <div class="upload-actions">
-              <button id="demo-btn" class="btn btn-secondary">
-                <i data-lucide="sparkles"></i> Load Demo Spec
-              </button>
+              <button id="demo-btn" class="btn btn-secondary"><i data-lucide="sparkles"></i> Load Demo Spec</button>
               <span class="or-separator">or</span>
-              <button id="upload-btn" class="btn btn-primary">
-                <i data-lucide="upload"></i> Upload & Extract PDF
-              </button>
+              <button id="upload-btn" class="btn btn-primary"><i data-lucide="upload"></i> Upload &amp; Extract PDF</button>
             </div>
-
-            <!-- Loader / Progress -->
             <div id="upload-loader" class="upload-loader hidden">
               <div class="spinner"></div>
               <div class="loader-text">
@@ -98,84 +67,61 @@
               </div>
             </div>
           </div>
-
-          <!-- Quick Metrics Banner -->
           <div class="ui-card glass-panel summary-hero-card">
             <div class="summary-hero-content">
-              <div class="stat-group">
-                <span class="stat-label">Total Cabinet Units</span>
-                <span id="stat-total-units" class="stat-value">0</span>
-              </div>
-              <div class="stat-group">
-                <span class="stat-label">Number of Rooms</span>
-                <span id="stat-rooms-count" class="stat-value">0</span>
-              </div>
-              <div class="stat-group highlighted">
-                <span class="stat-label">Estimated Quote Price</span>
-                <span id="stat-grand-total" class="stat-value">$0.00</span>
-              </div>
+              <div class="stat-group"><span class="stat-label">Total Cabinet Units</span><span id="stat-total-units" class="stat-value">0</span></div>
+              <div class="stat-group"><span class="stat-label">Number of Rooms</span><span id="stat-rooms-count" class="stat-value">0</span></div>
+              <div class="stat-group highlighted"><span class="stat-label">Estimated Quote Price</span><span id="stat-grand-total" class="stat-value">$0.00</span></div>
             </div>
-            <div class="summary-hero-footer">
-              <div class="badge success-badge"><i data-lucide="check-circle-2"></i> AeroCraft Intelligent 3D Engine</div>
+            <div class="summary-hero-footer"><div class="badge success-badge"><i data-lucide="check-circle-2"></i> AeroCraft Intelligent 3D Engine</div></div>
+          </div>
+        </div>
+        <div class="ui-card glass-panel client-details-card">
+          <div class="client-details-header" id="client-details-toggle">
+            <div class="card-header" style="cursor:pointer;">
+              <i data-lucide="briefcase"></i>
+              <h2>Project &amp; Client Details</h2>
+              <i data-lucide="chevron-down" class="accordion-chevron" id="client-chevron"></i>
+            </div>
+          </div>
+          <div id="client-details-body" class="client-details-body collapsed">
+            <div class="client-details-grid">
+              <div class="input-group"><label for="client-name">Client Name</label><input type="text" id="client-name" placeholder="e.g. John Smith"></div>
+              <div class="input-group"><label for="project-name">Project / Job Name</label><input type="text" id="project-name" placeholder="e.g. Smith Kitchen Renovation"></div>
+              <div class="input-group"><label for="site-address">Site Address</label><input type="text" id="site-address" placeholder="e.g. 12 Oak Street, Sydney NSW 2000"></div>
+              <div class="input-group"><label for="estimator-name">Estimator Name</label><input type="text" id="estimator-name" placeholder="e.g. Sarah Johnson"></div>
+              <div class="input-group full-width"><label for="project-notes">Notes / Scope</label><textarea id="project-notes" rows="2" placeholder="e.g. Custom kitchen with island bench, overhead cabinets, and laundry..."></textarea></div>
             </div>
           </div>
         </div>
-
-        <!-- Main Workspace: Table + Quote Details -->
         <div class="workspace-grid">
-          
-          <!-- Left Column: Cabinet Schedule Editor -->
           <div class="workspace-left">
-            
             <div class="ui-card glass-panel schedule-card">
               <div class="card-header-actions">
-                <div class="card-header-title">
-                  <i data-lucide="table"></i>
-                  <h2>Interactive Cabinet Schedule</h2>
-                </div>
+                <div class="card-header-title"><i data-lucide="table"></i><h2>Interactive Cabinet Schedule</h2></div>
                 <div class="header-actions">
-                  <button id="add-row-btn" class="btn btn-secondary btn-sm">
-                    <i data-lucide="plus"></i> Add Unit
-                  </button>
-                  <button id="clear-all-btn" class="btn btn-danger btn-sm">
-                    <i data-lucide="trash-2"></i> Clear All
-                  </button>
+                  <button id="add-row-btn" class="btn btn-secondary btn-sm"><i data-lucide="plus"></i> Add Unit</button>
+                  <button id="clear-all-btn" class="btn btn-danger btn-sm"><i data-lucide="trash-2"></i> Clear All</button>
                 </div>
               </div>
-
-              <!-- Advanced Feature: Finish Preset Tier Swapper -->
               <div class="tier-swapper-bar">
                 <span class="tier-label"><i data-lucide="palette"></i> Swap Finish Preset Tiers:</span>
                 <div class="tier-buttons">
-                  <button class="btn-tier" data-tier="budget" title="Apply White Melamine & Laminate preset">Budget Melamine</button>
-                  <button class="btn-tier" data-tier="premium" title="Apply Vinyl Wrap & Standard Stone preset">Premium Vinyl</button>
-                  <button class="btn-tier" data-tier="luxury" title="Apply Timber Veneer & Premium Stone preset">Luxury Veneer</button>
+                  <button class="btn-tier" data-tier="budget">Budget Melamine</button>
+                  <button class="btn-tier" data-tier="premium">Premium Vinyl</button>
+                  <button class="btn-tier" data-tier="luxury">Luxury Veneer</button>
                 </div>
               </div>
-
-              <!-- Schedule Table Wrapper -->
               <div class="table-responsive">
                 <table id="schedule-table">
                   <thead>
                     <tr>
-                      <th>Room</th>
-                      <th>Category</th>
-                      <th>Description</th>
-                      <th>W (mm)</th>
-                      <th>H (mm)</th>
-                      <th>D (mm)</th>
-                      <th>Qty</th>
-                      <th>Carcass</th>
-                      <th>Door Finish</th>
-                      <th>Benchtop</th>
-                      <th>Hardware</th>
-                      <th>Actions</th>
+                      <th>Room</th><th>Category</th><th>Description</th><th>W (mm)</th><th>H (mm)</th><th>D (mm)</th><th>Qty</th><th>Carcass</th><th>Door Finish</th><th>Benchtop</th><th>Hardware</th><th class="cost-col">Unit $</th><th class="cost-col">Total $</th><th>Actions</th>
                     </tr>
                   </thead>
                   <tbody id="schedule-body">
-                    <!-- Dynamic Rows and Group Headings Loaded Here -->
                     <tr id="empty-row-placeholder">
-                      <td colspan="12" class="empty-placeholder-td">
+                      <td colspan="14" class="empty-placeholder-td">
                         <i data-lucide="info" class="placeholder-icon"></i>
                         <p>No joinery items loaded. Upload a PDF specification, click "Load Demo Spec", or add a unit manually to start.</p>
                       </td>
@@ -185,22 +131,12 @@
               </div>
             </div>
           </div>
-
-          <!-- Right Column: 3D Visualizer & Final Quote & Breakdown -->
           <div class="workspace-right">
-            
-            <!-- 3D Cabinet Visualizer Card -->
             <div class="ui-card glass-panel visualizer-3d-card">
               <div class="card-header-actions">
-                <div class="card-header-title">
-                  <i data-lucide="box"></i>
-                  <h2>Interactive 3D Visualizer</h2>
-                </div>
-                <div class="visualizer-status-indicator" id="visualizer-status">
-                  Active Unit
-                </div>
+                <div class="card-header-title"><i data-lucide="box"></i><h2>Interactive 3D Visualizer</h2></div>
+                <div class="visualizer-status-indicator" id="visualizer-status">Active Unit</div>
               </div>
-              
               <div class="visualizer-3d-container">
                 <div class="cabinet-3d-viewport">
                   <div class="cabinet-3d-scene" id="cabinet-3d-scene">
@@ -210,11 +146,7 @@
                       <div class="cube-face cube-right" id="cube-right"></div>
                       <div class="cube-face cube-top" id="cube-top"></div>
                       <div class="cube-face cube-bottom" id="cube-bottom"></div>
-                      <!-- Front face swing door -->
-                      <div class="cube-face cube-front-door" id="cube-front-door">
-                        <div class="cabinet-handle" id="cabinet-handle"></div>
-                      </div>
-                      <!-- Drawers stacks -->
+                      <div class="cube-face cube-front-door" id="cube-front-door"><div class="cabinet-handle" id="cabinet-handle"></div></div>
                       <div class="cube-drawer-group hidden" id="cube-drawer-group">
                         <div class="cube-drawer-front d1"><div class="drawer-handle"></div></div>
                         <div class="cube-drawer-front d2"><div class="drawer-handle"></div></div>
@@ -223,494 +155,195 @@
                     </div>
                   </div>
                 </div>
-                
                 <div class="visualizer-controls">
-                  <button id="btn-rotate-left" class="btn btn-secondary btn-sm" title="Rotate Left">
-                    <i data-lucide="rotate-ccw"></i>
-                  </button>
-                  <button id="btn-explode" class="btn btn-secondary btn-sm" title="Toggle 3D Exploded View">
-                    <i data-lucide="unfold-horizontal"></i> Explode View
-                  </button>
-                  <button id="btn-rotate-right" class="btn btn-secondary btn-sm" title="Rotate Right">
-                    <i data-lucide="rotate-cw"></i>
-                  </button>
+                  <button id="btn-rotate-left" class="btn btn-secondary btn-sm"><i data-lucide="rotate-ccw"></i></button>
+                  <button id="btn-explode" class="btn btn-secondary btn-sm"><i data-lucide="unfold-horizontal"></i> Explode View</button>
+                  <button id="btn-rotate-right" class="btn btn-secondary btn-sm"><i data-lucide="rotate-cw"></i></button>
                 </div>
-                
-                <div class="visualizer-dims-panel">
-                  <span id="visualizer-dimensions-label" class="dims-label">Select a cabinet row</span>
-                </div>
+                <div class="visualizer-dims-panel"><span id="visualizer-dimensions-label" class="dims-label">Select a cabinet row</span></div>
               </div>
             </div>
-
-            <!-- Auxiliary Project Allowances Card -->
             <div class="ui-card glass-panel allowances-card">
-              <div class="card-header">
-                <i data-lucide="piggy-bank"></i>
-                <h2>Project Allowances</h2>
-              </div>
+              <div class="card-header"><i data-lucide="piggy-bank"></i><h2>Project Allowances</h2></div>
               <div class="card-body allowances-body">
-                <div class="allowance-row">
-                  <label for="aux-appliances">Appliances Allowance ($)</label>
-                  <div class="input-with-symbol">
-                    <span class="symbol">$</span>
-                    <input type="number" id="aux-appliances" value="0" min="0" step="100">
-                  </div>
-                </div>
-                <div class="allowance-row">
-                  <label for="aux-delivery">Freight & Transport ($)</label>
-                  <div class="input-with-symbol">
-                    <span class="symbol">$</span>
-                    <input type="number" id="aux-delivery" value="0" min="0" step="50">
-                  </div>
-                </div>
-                <div class="allowance-row">
-                  <label for="aux-services">Trades Services Allowance ($)</label>
-                  <div class="input-with-symbol">
-                    <span class="symbol">$</span>
-                    <input type="number" id="aux-services" value="0" min="0" step="100">
-                  </div>
-                </div>
+                <div class="allowance-row"><label for="aux-appliances">Appliances Allowance ($)</label><div class="input-with-symbol"><span class="symbol">$</span><input type="number" id="aux-appliances" value="0" min="0" step="100"></div></div>
+                <div class="allowance-row"><label for="aux-delivery">Freight &amp; Transport ($)</label><div class="input-with-symbol"><span class="symbol">$</span><input type="number" id="aux-delivery" value="0" min="0" step="50"></div></div>
+                <div class="allowance-row"><label for="aux-services">Trades Services ($)</label><div class="input-with-symbol"><span class="symbol">$</span><input type="number" id="aux-services" value="0" min="0" step="100"></div></div>
+                <div class="allowance-row"><label for="aux-contingency">Contingency / Risk (%)</label><div class="input-with-symbol"><input type="number" id="aux-contingency" value="0" min="0" max="50" step="1"><span class="symbol">%</span></div></div>
               </div>
             </div>
-
-            <!-- Estimate Summary Card -->
             <div class="ui-card glass-panel cost-summary-card">
-              <div class="card-header">
-                <i data-lucide="calculator"></i>
-                <h2>AeroCraft Cost Analysis</h2>
-              </div>
-              
+              <div class="card-header"><i data-lucide="calculator"></i><h2>AeroCraft Cost Analysis</h2></div>
               <div class="cost-breakdown-list">
-                <!-- Direct Costs -->
                 <div class="cost-section">
                   <h3>Cabinetry Direct Costs</h3>
-                  <div class="cost-row">
-                    <span>Carcass Board</span>
-                    <span id="cost-carcass">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Door Panel Finishes</span>
-                    <span id="cost-doors">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Benchtops (linear meters)</span>
-                    <span id="cost-benchtops">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Hinges / Runners / Handles</span>
-                    <span id="cost-hardware">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Cabinetry Labor</span>
-                    <span id="cost-labor">$0.00</span>
-                  </div>
-                  <div class="cost-row total-row">
-                    <span>Direct Cost Subtotal</span>
-                    <span id="cost-direct-subtotal">$0.00</span>
-                  </div>
+                  <div class="cost-row"><span>Carcass Board</span><span id="cost-carcass">$0.00</span></div>
+                  <div class="cost-row"><span>Door Panel Finishes</span><span id="cost-doors">$0.00</span></div>
+                  <div class="cost-row"><span>Benchtops (linear meters)</span><span id="cost-benchtops">$0.00</span></div>
+                  <div class="cost-row"><span>Hinges / Runners / Handles</span><span id="cost-hardware">$0.00</span></div>
+                  <div class="cost-row"><span>Cabinetry Labor</span><span id="cost-labor">$0.00</span></div>
+                  <div class="cost-row total-row"><span>Direct Cost Subtotal</span><span id="cost-direct-subtotal">$0.00</span></div>
                 </div>
-
-                <!-- Labor splits information -->
                 <div class="cost-section labor-splits-section">
                   <h3>Cabinet Maker Hours Summary</h3>
                   <div class="labor-hours-grid">
-                    <div class="hour-stat">
-                      <span class="hour-label">Cut/Edge</span>
-                      <span id="hours-cut" class="hour-val">0h</span>
-                    </div>
-                    <div class="hour-stat">
-                      <span class="hour-label">Assembly</span>
-                      <span id="hours-assemble" class="hour-val">0h</span>
-                    </div>
-                    <div class="hour-stat">
-                      <span class="hour-label">Install</span>
-                      <span id="hours-install" class="hour-val">0h</span>
-                    </div>
-                    <div class="hour-stat highlighted">
-                      <span class="hour-label">Total Labor</span>
-                      <span id="hours-total" class="hour-val">0h</span>
-                    </div>
+                    <div class="hour-stat"><span class="hour-label">Cut/Edge</span><span id="hours-cut" class="hour-val">0h</span></div>
+                    <div class="hour-stat"><span class="hour-label">Assembly</span><span id="hours-assemble" class="hour-val">0h</span></div>
+                    <div class="hour-stat"><span class="hour-label">Install</span><span id="hours-install" class="hour-val">0h</span></div>
+                    <div class="hour-stat highlighted"><span class="hour-label">Total Labor</span><span id="hours-total" class="hour-val">0h</span></div>
                   </div>
                 </div>
-
-                <!-- Project allowances totals -->
                 <div class="cost-section">
                   <h3>Project Allowances Total</h3>
-                  <div class="cost-row">
-                    <span>Lump-Sum Allowances</span>
-                    <span id="cost-allowances-sum">$0.00</span>
-                  </div>
+                  <div class="cost-row"><span>Lump-Sum Allowances</span><span id="cost-allowances-sum">$0.00</span></div>
+                  <div class="cost-row" id="contingency-row" style="display:none;"><span>Contingency (<span id="pct-contingency">0</span>% of direct)</span><span id="cost-contingency">$0.00</span></div>
                 </div>
-
-                <!-- Markups & Taxes -->
                 <div class="cost-section">
-                  <h3>Markups & Tax</h3>
-                  <div class="cost-row">
-                    <span>Business Overhead (<span id="pct-overhead">15</span>%)</span>
-                    <span id="cost-overhead">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Target Net Profit (<span id="pct-profit">20</span>%)</span>
-                    <span id="cost-profit">$0.00</span>
-                  </div>
-                  <div class="cost-row">
-                    <span>Sales Tax / GST (<span id="pct-tax">10</span>%)</span>
-                    <span id="cost-tax">$0.00</span>
-                  </div>
+                  <h3>Markups &amp; Tax</h3>
+                  <div class="cost-row"><span>Business Overhead (<span id="pct-overhead">15</span>%)</span><span id="cost-overhead">$0.00</span></div>
+                  <div class="cost-row"><span>Target Net Profit (<span id="pct-profit">20</span>%)</span><span id="cost-profit">$0.00</span></div>
+                  <div class="cost-row discount-row" id="discount-cost-row" style="display:none;"><span>Client Discount (<span id="pct-discount-display">0</span>%)</span><span id="cost-discount" class="discount-value">-$0.00</span></div>
+                  <div class="cost-row"><span>Sales Tax / GST (<span id="pct-tax">10</span>%)</span><span id="cost-tax">$0.00</span></div>
                 </div>
-
-                <!-- Final Price -->
-                <div class="final-price-box">
-                  <span class="final-label">Final Suite Estimate</span>
-                  <span id="cost-grand-total-sidebar" class="final-value">$0.00</span>
+                <div class="cost-section">
+                  <h3>Client Discount</h3>
+                  <div class="allowance-row"><label for="discount-pct-input">Apply Discount (%)</label><div class="input-with-symbol"><input type="number" id="discount-pct-input" value="0" min="0" max="100" step="1"><span class="symbol">%</span></div></div>
+                </div>
+                <div class="final-price-box"><span class="final-label">Final Suite Estimate</span><span id="cost-grand-total-sidebar" class="final-value">$0.00</span></div>
+              </div>
+              <div class="whatif-simulator">
+                <div class="whatif-header" id="whatif-toggle"><i data-lucide="trending-up"></i><span>Profit Margin Simulator</span><i data-lucide="chevron-down" class="accordion-chevron" id="whatif-chevron"></i></div>
+                <div id="whatif-body" class="whatif-body hidden">
+                  <p class="whatif-desc">Drag the slider to preview how different profit margins change the final quote.</p>
+                  <div class="whatif-slider-row"><span class="whatif-pct" id="whatif-pct-label">20%</span><input type="range" id="whatif-slider" min="0" max="50" value="20" step="1" class="whatif-range"></div>
+                  <div class="whatif-result-box"><span>Simulated Total:</span><strong id="whatif-result">$0.00</strong></div>
                 </div>
               </div>
-
-              <!-- Export Controls -->
               <div class="export-actions">
-                <button id="export-csv-btn" class="btn btn-secondary btn-block">
-                  <i data-lucide="download"></i> Export CSV Data
-                </button>
-                <button id="print-proposal-btn" class="btn btn-primary btn-block">
-                  <i data-lucide="file-text"></i> Generate Client Proposal
-                </button>
+                <button id="export-csv-btn" class="btn btn-secondary btn-block"><i data-lucide="download"></i> Export CSV Data</button>
+                <button id="print-proposal-btn" class="btn btn-primary btn-block"><i data-lucide="file-text"></i> Generate Client Proposal</button>
               </div>
             </div>
-
-            <!-- Visualization / Mini Chart Card -->
             <div class="ui-card glass-panel chart-card">
-              <div class="card-header">
-                <i data-lucide="pie-chart"></i>
-                <h2>Cost Distribution</h2>
-              </div>
-              
-              <div class="chart-container">
-                <div id="chart-bars-wrapper" class="chart-bars-wrapper">
-                  <!-- Dynamic Flex Bars populated by app.js -->
-                </div>
-              </div>
+              <div class="card-header"><i data-lucide="pie-chart"></i><h2>Cost Distribution</h2></div>
+              <div class="chart-container"><div id="chart-bars-wrapper" class="chart-bars-wrapper"></div></div>
             </div>
-
           </div>
-
         </div>
-
       </section>
-
-      <!-- ================= TAB: CONFIGURATION ================= -->
       <section id="tab-config" class="tab-pane">
         <div class="config-grid">
-          
-          <!-- Carcass Materials Config -->
           <div class="ui-card glass-panel config-card">
-            <div class="card-header">
-              <i data-lucide="package"></i>
-              <h2>Carcass Material Rates</h2>
-            </div>
-            <div class="card-body">
-              <p class="config-desc">Rates are calculated per square meter of panel material utilized (carcass + shelves).</p>
-              <div id="config-carcass-container" class="config-inputs-list">
-                <!-- Dynamic inputs -->
-              </div>
-            </div>
+            <div class="card-header"><i data-lucide="package"></i><h2>Carcass Material Rates</h2></div>
+            <div class="card-body"><p class="config-desc">Rates per sqm of panel material (carcass + shelves).</p><div id="config-carcass-container" class="config-inputs-list"></div></div>
           </div>
-
-          <!-- Door Finishes Config -->
           <div class="ui-card glass-panel config-card">
-            <div class="card-header">
-              <i data-lucide="layers"></i>
-              <h2>Door & Front Finish Rates</h2>
-            </div>
-            <div class="card-body">
-              <p class="config-desc">Rates are calculated per square meter of visible front/door panels.</p>
-              <div id="config-door-container" class="config-inputs-list">
-                <!-- Dynamic inputs -->
-              </div>
-            </div>
+            <div class="card-header"><i data-lucide="layers"></i><h2>Door &amp; Front Finish Rates</h2></div>
+            <div class="card-body"><p class="config-desc">Rates per sqm of visible front/door panels.</p><div id="config-door-container" class="config-inputs-list"></div></div>
           </div>
-
-          <!-- Benchtops Config -->
           <div class="ui-card glass-panel config-card">
-            <div class="card-header">
-              <i data-lucide="spline"></i>
-              <h2>Benchtop Material Rates</h2>
-            </div>
-            <div class="card-body">
-              <p class="config-desc">Rates are calculated per linear meter (lm) assuming standard width (~600-800mm).</p>
-              <div id="config-benchtop-container" class="config-inputs-list">
-                <!-- Dynamic inputs -->
-              </div>
-            </div>
+            <div class="card-header"><i data-lucide="spline"></i><h2>Benchtop Material Rates</h2></div>
+            <div class="card-body"><p class="config-desc">Rates per linear meter assuming standard width.</p><div id="config-benchtop-container" class="config-inputs-list"></div></div>
           </div>
-
-          <!-- Hardware Config -->
           <div class="ui-card glass-panel config-card">
-            <div class="card-header">
-              <i data-lucide="cog"></i>
-              <h2>Hardware Rates</h2>
-            </div>
-            <div class="card-body">
-              <p class="config-desc">Fixed hardware costs per unit (e.g. per hinge, per set of drawer runners, handles).</p>
-              <div id="config-hardware-container" class="config-inputs-list">
-                <!-- Dynamic inputs -->
-              </div>
-            </div>
+            <div class="card-header"><i data-lucide="cog"></i><h2>Hardware Rates</h2></div>
+            <div class="card-body"><p class="config-desc">Fixed hardware costs per unit.</p><div id="config-hardware-container" class="config-inputs-list"></div></div>
           </div>
-
-          <!-- Labor & Margins Config -->
           <div class="ui-card glass-panel config-card wide-card">
-            <div class="card-header">
-              <i data-lucide="percent"></i>
-              <h2>Labor Rates, Markups & Wastage</h2>
-            </div>
+            <div class="card-header"><i data-lucide="percent"></i><h2>Labor Rates, Markups &amp; Wastage</h2></div>
             <div class="card-body">
               <div class="dual-config-grid">
-                
-                <!-- Labor rates column -->
                 <div class="config-section">
                   <h3>Cabinet Maker Hourly Rates</h3>
-                  <div class="input-group">
-                    <label for="cfg-labor-shop">Manufacturing Shop Rate ($/hr)</label>
-                    <div class="input-with-symbol">
-                      <span class="symbol">$</span>
-                      <input type="number" id="cfg-labor-shop" step="1" min="0">
-                    </div>
-                  </div>
-                  <div class="input-group">
-                    <label for="cfg-labor-install">On-Site Installation Rate ($/hr)</label>
-                    <div class="input-with-symbol">
-                      <span class="symbol">$</span>
-                      <input type="number" id="cfg-labor-install" step="1" min="0">
-                    </div>
-                  </div>
+                  <div class="input-group"><label for="cfg-labor-shop">Shop Rate ($/hr)</label><div class="input-with-symbol"><span class="symbol">$</span><input type="number" id="cfg-labor-shop" step="1" min="0"></div></div>
+                  <div class="input-group"><label for="cfg-labor-install">Install Rate ($/hr)</label><div class="input-with-symbol"><span class="symbol">$</span><input type="number" id="cfg-labor-install" step="1" min="0"></div></div>
                 </div>
-
-                <!-- Margin percentages column -->
                 <div class="config-section">
-                  <h3>Markups, Wastage & Taxes (%)</h3>
-                  <div class="input-group">
-                    <label for="cfg-margin-overhead">Business Overhead Markup (%)</label>
-                    <div class="input-with-symbol">
-                      <input type="number" id="cfg-margin-overhead" step="0.5" min="0">
-                      <span class="symbol">%</span>
-                    </div>
-                  </div>
-                  <div class="input-group">
-                    <label for="cfg-margin-profit">Target Net Profit Margin (%)</label>
-                    <div class="input-with-symbol">
-                      <input type="number" id="cfg-margin-profit" step="0.5" min="0">
-                      <span class="symbol">%</span>
-                    </div>
-                  </div>
-                  <div class="input-group">
-                    <label for="cfg-margin-wastage">Sheet Cutting Wastage Allowance (%)</label>
-                    <div class="input-with-symbol">
-                      <input type="number" id="cfg-margin-wastage" step="1" min="0" max="100">
-                      <span class="symbol">%</span>
-                    </div>
-                  </div>
-                  <div class="input-group">
-                    <label for="cfg-margin-tax">GST / VAT / Sales Tax (%)</label>
-                    <div class="input-with-symbol">
-                      <input type="number" id="cfg-margin-tax" step="0.5" min="0">
-                      <span class="symbol">%</span>
-                    </div>
-                  </div>
+                  <h3>Markups, Wastage &amp; Taxes (%)</h3>
+                  <div class="input-group"><label for="cfg-margin-overhead">Overhead (%)</label><div class="input-with-symbol"><input type="number" id="cfg-margin-overhead" step="0.5" min="0"><span class="symbol">%</span></div></div>
+                  <div class="input-group"><label for="cfg-margin-profit">Profit (%)</label><div class="input-with-symbol"><input type="number" id="cfg-margin-profit" step="0.5" min="0"><span class="symbol">%</span></div></div>
+                  <div class="input-group"><label for="cfg-margin-wastage">Wastage (%)</label><div class="input-with-symbol"><input type="number" id="cfg-margin-wastage" step="1" min="0" max="100"><span class="symbol">%</span></div></div>
+                  <div class="input-group"><label for="cfg-margin-tax">Tax (%)</label><div class="input-with-symbol"><input type="number" id="cfg-margin-tax" step="0.5" min="0"><span class="symbol">%</span></div></div>
                 </div>
-
               </div>
-
-              <!-- Save Actions -->
               <div class="config-actions">
-                <button id="save-config-btn" class="btn btn-primary">
-                  <i data-lucide="save"></i> Save Pricing Configuration
-                </button>
-                <button id="reset-config-btn" class="btn btn-secondary">
-                  <i data-lucide="rotate-ccw"></i> Reset Defaults
-                </button>
+                <button id="save-config-btn" class="btn btn-primary"><i data-lucide="save"></i> Save Configuration</button>
+                <button id="reset-config-btn" class="btn btn-secondary"><i data-lucide="rotate-ccw"></i> Reset Defaults</button>
               </div>
-
             </div>
           </div>
-
         </div>
       </section>
-
-      <!-- ================= TAB: API SETTINGS ================= -->
       <section id="tab-api-settings" class="tab-pane">
         <div class="api-settings-container">
           <div class="ui-card glass-panel api-settings-card">
-            <div class="card-header">
-              <i data-lucide="key-round"></i>
-              <h2>Gemini AI Connection Settings</h2>
-            </div>
-            
+            <div class="card-header"><i data-lucide="key-round"></i><h2>Gemini AI Connection Settings</h2></div>
             <div class="card-body">
-              <p class="settings-desc">To extract cabinet specifications from PDF drawings and document sheets, you can connect your own Gemini AI API key. The API key is stored safely in your local browser storage and is never uploaded anywhere except directly to your server during PDF requests.</p>
-              
-              <div class="input-group">
-                <label for="api-key-input">Gemini API Key</label>
-                <div class="input-password-wrapper">
-                  <input type="password" id="api-key-input" placeholder="AIzaSy...">
-                  <button id="toggle-key-visibility" class="icon-btn-toggle" type="button">
-                    <i data-lucide="eye"></i>
-                  </button>
-                </div>
-                <p class="input-help">Get a free API key from the <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer">Google AI Studio</a>.</p>
+              <p class="settings-desc">Connect your Gemini AI API key for live PDF extraction. The key is stored in browser localStorage only.</p>
+              <div class="input-group"><label for="api-key-input">Gemini API Key</label>
+                <div class="input-password-wrapper"><input type="password" id="api-key-input" placeholder="AIzaSy..."><button id="toggle-key-visibility" class="icon-btn-toggle" type="button"><i data-lucide="eye"></i></button></div>
+                <p class="input-help">Get a free key from <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</p>
               </div>
-
               <div class="settings-actions">
-                <button id="save-api-key-btn" class="btn btn-primary">
-                  <i data-lucide="save"></i> Save Settings
-                </button>
-                <button id="clear-api-key-btn" class="btn btn-danger">
-                  <i data-lucide="x"></i> Clear Saved Key
-                </button>
+                <button id="save-api-key-btn" class="btn btn-primary"><i data-lucide="save"></i> Save</button>
+                <button id="clear-api-key-btn" class="btn btn-danger"><i data-lucide="x"></i> Clear Key</button>
               </div>
-
-              <div class="api-notice">
-                <div class="notice-icon"><i data-lucide="shield-check"></i></div>
-                <div class="notice-text">
-                  <h4>Privacy Guaranteed</h4>
-                  <p>Your API key is stored inside your browser's private storage (localStorage) and used to initialize the Gemini model securely.</p>
-                </div>
-              </div>
+              <div class="api-notice"><div class="notice-icon"><i data-lucide="shield-check"></i></div><div class="notice-text"><h4>Privacy Guaranteed</h4><p>Your API key is stored in browser localStorage and used securely.</p></div></div>
             </div>
           </div>
         </div>
       </section>
-
     </main>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-      <p>&copy; 2026 AeroCraft 3D Joinery Estimation Suite. Created for professional joinery and cabinetry cost calculation.</p>
-    </footer>
-
+    <footer class="app-footer"><p>&copy; 2026 AeroCraft 3D Joinery Estimation Suite.</p></footer>
   </div>
-
-  <!-- Client Proposal Printable Modal -->
+  <div id="toast-container" class="toast-container"></div>
   <div id="proposal-modal" class="modal-overlay hidden">
     <div class="modal-content proposal-document">
-      
-      <!-- Modal Toolbar -->
       <div class="modal-toolbar no-print">
-        <button id="print-execute-btn" class="btn btn-primary btn-sm">
-          <i data-lucide="printer"></i> Print Proposal
-        </button>
-        <button id="close-proposal-btn" class="btn btn-secondary btn-sm">
-          <i data-lucide="x"></i> Close
-        </button>
+        <button id="print-execute-btn" class="btn btn-primary btn-sm"><i data-lucide="printer"></i> Print</button>
+        <button id="close-proposal-btn" class="btn btn-secondary btn-sm"><i data-lucide="x"></i> Close</button>
       </div>
-
-      <!-- Printable Proposal Layout -->
       <div class="printable-area">
-        
-        <!-- Document Header -->
         <div class="doc-header">
           <div class="doc-title-section">
             <h1 class="proposal-title">JOINERY WORK ESTIMATE PROPOSAL</h1>
             <p class="proposal-date">Date: <span id="proposal-date-val">2026-07-09</span></p>
-            <p class="proposal-id">Quote reference: <span id="proposal-ref-val">AG-92817</span></p>
+            <p class="proposal-id">Quote ref: <span id="proposal-ref-val">AG-92817</span></p>
           </div>
-          <div class="company-address">
-            <strong>AeroCraft Joinery Pty Ltd</strong><br>
-            100 Innovation Parkway<br>
-            Design District, NSW 2000<br>
-            estimates@aerocraftjoinery.com
-          </div>
+          <div class="company-address"><strong>AeroCraft Joinery Pty Ltd</strong><br>100 Innovation Parkway<br>Design District, NSW 2000<br>estimates@aerocraftjoinery.com</div>
         </div>
-
         <hr class="doc-divider">
-
-        <!-- Client Info -->
         <div class="doc-client-info">
-          <div>
-            <h3>Prepared For:</h3>
-            <p id="proposal-client-name">Valued Customer</p>
-            <p>Architectural Cabinetry Works</p>
-          </div>
-          <div class="project-scope">
-            <h3>Project Scope:</h3>
-            <p id="proposal-project-scope">Custom Kitchen & Laundry Joinery Installation</p>
-          </div>
+          <div><h3>Prepared For:</h3><p id="proposal-client-name">Valued Customer</p><p id="proposal-site-address"></p></div>
+          <div class="project-scope"><h3>Project Scope:</h3><p id="proposal-project-scope">Custom Kitchen &amp; Laundry Joinery</p><p id="proposal-estimator-name" style="font-size:12px;color:#6b7280;margin-top:4px;"></p></div>
         </div>
-
-        <!-- Proposal Schedule Table -->
+        <div id="proposal-notes-section" style="display:none;margin:12px 0;"><h3 style="font-size:13px;font-weight:600;color:#374151;">Scope Notes:</h3><p id="proposal-notes-text" style="font-size:12px;color:#4b5563;"></p></div>
         <div class="doc-table-section">
           <h3>Schedule of Joinery Items</h3>
           <table class="proposal-table">
-            <thead>
-              <tr>
-                <th>Room</th>
-                <th>Cabinet Item & Description</th>
-                <th>Dimensions</th>
-                <th>Qty</th>
-                <th>Materials & Finishes</th>
-                <th class="text-right">Total Price</th>
-              </tr>
-            </thead>
-            <tbody id="proposal-items-body">
-              <!-- Dynamically populated -->
-            </tbody>
+            <thead><tr><th>Room</th><th>Cabinet Item</th><th>Dimensions</th><th>Qty</th><th>Finishes</th><th class="text-right">Total Price</th></tr></thead>
+            <tbody id="proposal-items-body"></tbody>
           </table>
         </div>
-
-        <!-- Totals & Signatures -->
         <div class="doc-totals-grid">
-          
-          <div class="terms-conditions">
-            <h3>Estimate Terms</h3>
-            <ul>
-              <li>This estimate is valid for 30 days from the date of issue.</li>
-              <li>Includes fabrication of carcasses, doors, hardware, and installation.</li>
-              <li>Plumbing, electrical, and appliance hookups are excluded unless specified.</li>
-            </ul>
-          </div>
-          
+          <div class="terms-conditions"><h3>Estimate Terms</h3><ul><li>Valid for 30 days from issue.</li><li>Includes carcasses, doors, hardware, and installation.</li><li>Plumbing, electrical excluded unless specified.</li></ul></div>
           <div class="totals-calculation">
-            <div class="totals-row">
-              <span>Subtotal Cabinets:</span>
-              <span id="prop-subtotal">$0.00</span>
-            </div>
-            <div class="totals-row">
-              <span>Project Allowances:</span>
-              <span id="prop-allowances">$0.00</span>
-            </div>
-            <div class="totals-row">
-              <span>Overheads & Profits:</span>
-              <span id="prop-markup">$0.00</span>
-            </div>
-            <div class="totals-row">
-              <span>Sales Tax / GST (10%):</span>
-              <span id="prop-tax">$0.00</span>
-            </div>
+            <div class="totals-row"><span>Subtotal Cabinets:</span><span id="prop-subtotal">$0.00</span></div>
+            <div class="totals-row"><span>Project Allowances:</span><span id="prop-allowances">$0.00</span></div>
+            <div class="totals-row"><span>Overheads &amp; Profits:</span><span id="prop-markup">$0.00</span></div>
+            <div class="totals-row" id="prop-discount-row" style="display:none;"><span>Client Discount:</span><span id="prop-discount" style="color:#ef4444;">-$0.00</span></div>
+            <div class="totals-row"><span>Sales Tax / GST:</span><span id="prop-tax">$0.00</span></div>
             <hr>
-            <div class="totals-row grand-total-row">
-              <span>Total Estimate:</span>
-              <span id="prop-grand-total">$0.00</span>
-            </div>
+            <div class="totals-row grand-total-row"><span>Total Estimate:</span><span id="prop-grand-total">$0.00</span></div>
           </div>
-
         </div>
-
-        <!-- Signature Lines -->
         <div class="signature-section">
-          <div class="sig-line">
-            <div class="line"></div>
-            <span>Prepared By (AeroCraft Estimator)</span>
-          </div>
-          <div class="sig-line">
-            <div class="line"></div>
-            <span>Accepted By (Client Signature)</span>
-          </div>
+          <div class="sig-line"><div class="line"></div><span>Prepared By (AeroCraft Estimator)</span></div>
+          <div class="sig-line"><div class="line"></div><span>Accepted By (Client Signature)</span></div>
         </div>
-
       </div>
     </div>
   </div>
-
-  <!-- App Main Scripts -->
   <script src="app.js"></script>
 </body>
 </html>

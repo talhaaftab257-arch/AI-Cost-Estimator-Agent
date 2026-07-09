@@ -317,6 +317,6 @@ function generateSimulatedItemsFromText(text) {
 }
 
 app.listen(PORT, () => {
-  console.log(`Joinery Estimator Server running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT} in your web browser`);
+  console.log(`\n  AeroCraft 3D Estimation Server`);
+  console.log(`  Running on http://localhost:${PORT}\n`);
 });
